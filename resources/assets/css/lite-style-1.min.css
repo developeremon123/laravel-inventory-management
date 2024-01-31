@@ -20644,7 +20644,7 @@ a:focus {
 .dt-login__bg-section {
     position: relative;
     padding: 2.4rem 2.4rem;
-    background-image: url("../images/login-image.jpg");
+    background-image: url('../../../public/assets/images/login-image.jpg');
     background-position: center bottom;
     background-repeat: no-repeat;
     background-size: cover;
