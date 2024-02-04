@@ -1,8 +1,5 @@
 import 'bootstrap';
-import 'sweetalert2';
-import 'select2';
 import 'moment';
-import '../../node_modules/dropify/dist/js/dropify.min.js';
 import '../../node_modules/masonry-layout/dist/masonry.pkgd.min';
 import '../../node_modules/nestable2/jquery.nestable';
 import '../../node_modules/@fortawesome/fontawesome-free/js/fontawesome.min.js';
