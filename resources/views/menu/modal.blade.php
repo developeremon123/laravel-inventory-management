@@ -13,7 +13,7 @@
                         <input type="hidden" name="update_id" id="update_id">
                         <x-form.textbox labelName="Menu Name" col="col-md-12" name="menu_name" required="required"
                             placeholder="Enter menu name" />
-                        <x-form.selectbox labelName="Deletable" col="col-md-12" name="deletable" class="select"
+                        <x-form.selectbox labelName="Deletable" col="col-md-12" name="deletable" class="selectpicker"
                             required="required">
                             @foreach (DELETABLE as $key => $item)
                                 <option value="{{ $key }}">{{ $item }}</option>

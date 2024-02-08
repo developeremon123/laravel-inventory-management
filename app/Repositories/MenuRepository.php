@@ -60,4 +60,9 @@ class MenuRepository extends BaseRepository {
     {
         return $this->model->toBase()->get()->count();
     }
+
+    public function withMenuItem(int $id)
+    {
+        return $this->model->with('menuItem')->findOrFail($id);
+    }
 }

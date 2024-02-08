@@ -45,6 +45,24 @@
 
           <!-- Card Body -->
           <div class="dt-card__body">
+            <!-- Search Form -->
+            <form id="form-filter">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="menu_name">Menu Name</label>
+                        <input type="text" class="form-control" name="menu_name" id="menu_name" placeholder="Enter menu name">
+                    </div>
+                    <div class="form-group col-md-8 pt-24">
+                        <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset" data-toggle="tooltip" data-placement="top" data-original-title="Reset Data">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm float-right mr-2" id="btn-filter" data-toggle="tooltip" data-placement="top" data-original-title="Filter Data">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!-- /search Form -->
 
             <!-- Tables -->
             <table id="dataTable" class="table table-striped table-bordered table-hover">
@@ -124,6 +142,7 @@
                     "url": "{{ route('menu.datatable.data') }}",
                     "type": "POST",
                     "data": function(data) {
+                        data.menu_name = $("#form-filter #menu_name").val();
                         data._token = _token;
                     },
                 },

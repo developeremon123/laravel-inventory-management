@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\ModuleSeeder;
 use Database\Seeders\SettingSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             SettingSeeder::class,
+            ModuleSeeder::class,
         ]);
     }
 }

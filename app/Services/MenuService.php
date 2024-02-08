@@ -6,14 +6,17 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\BaseService;
 use App\Repositories\MenuRepository as Menu;
+use App\Repositories\ModuleRepository as Module;
 
 class MenuService extends BaseService
 {
     protected $menu;
+    protected $module;
 
-    public function __construct(Menu $menu)
+    public function __construct(Menu $menu, Module $module)
     {
         $this->menu = $menu;
+        $this->module = $module;
     }
 
     public function get_datatable_data(Request $request)
@@ -35,6 +38,7 @@ class MenuService extends BaseService
             foreach ($list as $value) {
                 $no++;
                 $action    = '';
+                $action   .= '<a class="dropdown-item" href="'.route('menu.builder',[$value->id]).'" ><i class="fa-solid fa-list text-success"></i> Builder </a>';
                 $action   .= '<a class="dropdown-item edit_data" data-id="' . $value->id . '"><i class="fa-solid fa-pen-to-square text-primary"></i> Edit </a>';
                 // $action   .= '<a class="dropdown-item view_data" data-id="' . $value->id . '"><i class="fa-solid fa-eye text-warning"></i>View</a>';
                 if($value->deletable == 1){
@@ -95,5 +99,18 @@ class MenuService extends BaseService
     public function bulk_delete(Request $request)
     {
         return $this->menu->destroy($request->ids);
+    }
+
+    public function orderMenu(array $menuItems, $parent_id)
+    {
+        foreach($menuItems as $index => $menuItem){
+            $item            = $this->module->findOrFail($menuItem->id);
+            $item->order     = $index + 1;
+            $item->parent_id = $parent_id;
+            $item->save();
+            if(isset($menuItem->children)){
+                $this->orderMenu($menuItem->children, $item->id);
+            }
+        }
     }
 }

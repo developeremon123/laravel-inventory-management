@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Module;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Menu extends Model
 {
@@ -14,4 +16,9 @@ class Menu extends Model
      * @var array
      */
     protected $guarded = [];
+
+    public function menuItem(): HasMany
+    {
+        return $this->hasMany(Module::class)->doesntHave('parent')->orderBy('order','asc');
+    }
 }

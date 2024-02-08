@@ -74,9 +74,10 @@
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard-crypto.js') }}"></script>
     <script src="{{ asset('assets/js/dropify.min.js') }}"></script>
-    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard-crypto.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.nestable.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <script>
         let _token = $('meta[name="csrf-token"]').attr('content');
