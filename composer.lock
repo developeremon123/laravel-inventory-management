@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "295871ddd192ba35e61a71d0ff6653f3",
+    "content-hash": "68a8dbd1a0dacccb34fcf5b241319f04",
     "packages": [
         {
             "name": "brick/math",
@@ -5555,6 +5555,68 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.2.7"
             },
             "time": "2023-12-08T13:03:43+00:00"
+        },
+        {
+            "name": "typicms/nestablecollection",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TypiCMS/NestableCollection.git",
+                "reference": "421fe043bc933f6b52a71704bf7f436459dfa39e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TypiCMS/NestableCollection/zipball/421fe043bc933f6b52a71704bf7f436459dfa39e",
+                "reference": "421fe043bc933f6b52a71704bf7f436459dfa39e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~10.0",
+                "illuminate/support": "~10.0"
+            },
+            "require-dev": {
+                "illuminate/database": "~10.0",
+                "illuminate/support": "~10.0",
+                "nunomaduro/larastan": "^2.0",
+                "orchestra/testbench": "^7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TypiCMS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Samuel De Backer",
+                    "email": "sdebacker@gmail.com"
+                }
+            ],
+            "description": "A Laravel Package that extends Collection to handle unlimited nested items following adjacency list model.",
+            "keywords": [
+                "TypiCMS",
+                "adjacency list",
+                "collection",
+                "eloquent",
+                "laravel",
+                "nested set",
+                "tree"
+            ],
+            "support": {
+                "issues": "https://github.com/TypiCMS/NestableCollection/issues",
+                "source": "https://github.com/TypiCMS/NestableCollection/tree/3.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/typicms",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-03-20T19:08:31+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +39,16 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/store-or-update',[ModuleController::class,'store_or_update'])->name('store.or.update');
             Route::get('/{menu}/edit/{module}',[ModuleController::class,'edit'])->name('edit');
             Route::delete('delete/{module}',[ModuleController::class,'destroy'])->name('destroy');
+
+
+            Route::get('/permission', [PermissionController::class, 'index'])->name('permission');
+            Route::prefix('permission')->as('permission.')->group(function(){
+                Route::post('/datatable-data', [PermissionController::class, 'get_datatable_data'])->name('datatable.data');
+                Route::post('/store-or-update', [PermissionController::class, 'store_or_update_data'])->name('store.or.update');
+                Route::post('/edit', [PermissionController::class, 'edit'])->name('edit');
+                Route::post('/delete', [PermissionController::class, 'delete'])->name('delete');
+                Route::post('/bulk-delete', [PermissionController::class, 'bulk_delete'])->name('bulk.delete');
+             });
         });
     });
-
-    
 });

@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use TypiCMS\NestableTrait;
 
 class Module extends Model
 {
-    use HasFactory;
+    use HasFactory, NestableTrait;
     /**
      * The attributes that aren't mass assignable.
      *

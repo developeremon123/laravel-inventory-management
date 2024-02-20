@@ -34,7 +34,7 @@
           </div>
           <!-- /entry heading -->
 
-            <button class="btn btn-primary btn-sm" onclick="showFormModal('Add New Menu','Save')">
+            <button class="btn btn-primary btn-sm" onclick="showFormModal('Add New Permission','Save')">
                 <i class="fa-solid fa-square-plus"></i> Add New
             </button>
         </div>
@@ -49,10 +49,21 @@
             <form id="form-filter">
                 <div class="row">
                     <div class="form-group col-md-4">
-                        <label for="menu_name">Menu Name</label>
-                        <input type="text" class="form-control" name="menu_name" id="menu_name" placeholder="Enter menu name">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter name">
                     </div>
-                    <div class="form-group col-md-8 pt-24">
+                    <div class="form-group col-md-4">
+                        <label for="module_id">Module</label>
+                        <select name="module_id" class="form-control selectpicker" id="module_id" data-live-search="true" data-live-search-placeholder="Search" title="Choose one of the following">
+                            <option value="">Select Please</option>
+                            @if (!empty($data['modules']))
+                                @foreach ($data['modules'] as $key => $value)
+                                    <option value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 pt-24">
                         <button type="button" class="btn btn-danger btn-sm float-right" id="btn-reset" data-toggle="tooltip" data-placement="top" data-original-title="Reset Data">
                             <i class="fa-solid fa-rotate-right"></i>
                         </button>
@@ -77,8 +88,9 @@
                             </div>
                         </th>
                         <th>SL</th>
-                        <th>Menu Name</th>
-                        <th>Deletable</th>
+                        <th>Module</th>
+                        <th>Permission Name</th>
+                        <th>Permission Slug</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -99,7 +111,7 @@
     <!-- /grid -->
 
   </div>
-  @include('menu.modal')
+  @include('permission.modal')
   @push('scripts')
     {{-- <script src="{{ asset('assets/js/custom.js') }}"></script> --}}
     {{-- datatable jquery script link --}}
@@ -118,6 +130,7 @@
 
     <script>
         let table;
+        let count = 1;
         // server side datatable show information with ajax request
         $(document).ready(function(){
             table = $('#dataTable').DataTable({
@@ -139,19 +152,20 @@
                     zeroRecords: '<strong class="text-danger">No Data Found</strong>',
                 },
                 "ajax": {
-                    "url": "{{ route('menu.datatable.data') }}",
+                    "url": "{{ route('menu.module.permission.datatable.data') }}",
                     "type": "POST",
                     "data": function(data) {
-                        data.menu_name = $("#form-filter #menu_name").val();
+                        data.name = $("#form-filter #name").val();
+                        data.module_id = $("#form-filter #module_id").val();
                         data._token = _token;
                     },
                 },
                 "columnDefs": [{
-                    'targets': [0, 4],
+                    'targets': [0,5],
                     'orderable': false,
                     "className": "text-center",
                 }, {
-                    "targets": [1, 3],
+                    "targets": [1],
                     "className": "text-center",
                 }],
                 "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6' <'float-right'B>>>" +
@@ -164,7 +178,7 @@
                     {
                         "extend": 'print',
                         "className": "btn bg-primary text-white",
-                        "title": "Menu List",
+                        "title": "Permission List",
                         "orientation": "landscape",
                         "pageSize": "A4",
                         "exportOptions": {
@@ -179,8 +193,8 @@
                     {
                         "extend": 'csv',
                         "className": "btn bg-primary text-white",
-                        "title": "Menu List",
-                        "filename": "menu-list",
+                        "title": "Permission List",
+                        "filename": "permission-list",
                         "exportOptions": {
                             columns: function(index, data, node) {
                                 return table.column(index).visible();
@@ -190,8 +204,8 @@
                     {
                         "extend": 'excel',
                         "className": "btn bg-primary text-white",
-                        "title": "Menu List",
-                        "filename": "menu-list",
+                        "title": "Permission List",
+                        "filename": "permission-list",
                         "exportOptions": {
                             columns: function(index, data, node) {
                                 return table.column(index).visible();
@@ -201,8 +215,8 @@
                     {
                         "extend": 'pdf',
                         "className": "btn bg-primary text-white",
-                        "title": "Menu List",
-                        "filename": "menu-list",
+                        "title": "Permission List",
+                        "filename": "permission-list",
                         "orientation": "landscape",
                         "pageSize": "A4",
                         "exportOptions": {
@@ -225,6 +239,7 @@
             // btn-reset for custom search
             $('#btn-reset').click(function() {
                 $('#form-filter')[0].reset();
+                $('#form-filter .selectpicker').selectpicker('refresh');
                 table.ajax.reload();
             });
         });
@@ -232,7 +247,7 @@
         $(document).on('click', '#save_btn', function() {
             let form = document.getElementById('store_or_update_form');
             let formData = new FormData(form);
-            let url = "{{ route('menu.store.or.update') }}";
+            let url = "{{ route('menu.module.permission.store.or.update') }}";
             let id = $('#update_id').val();
             let method;
             if (id) {
@@ -245,25 +260,24 @@
         // edit data catch with ajax 
         $(document).on('click', '.edit_data', function() {
             let id = $(this).data('id');
-            $("#store_or_update_form .select").val("");
+            $("#store_or_update_form .select").val("").trigger("change");
             if (id) {
                 $.ajax({
-                    url: "{{ route('menu.edit') }}",
+                    url: "{{ route('menu.module.permission.edit') }}",
                     type: "POST",
                     data: { id: id, _token: _token},
                     dataType: "JSON",
                     success: function(data) {
                         $("#store_or_update_form #update_id").val(data.data.id);
-                        $("#store_or_update_form #menu_name").val(data.data.menu_name);
-                        $("#store_or_update_form #deletable").val(data.data.deletable).trigger('change');
-                        $("#store_or_update_form #deletable.selectpicker").selectPicker('refresh');
+                        $("#store_or_update_form #module_id").val(data.data.module_id);
+                        $("#store_or_update_form #module_id.selectpicker").selectpicker('refresh');
 
                         $('#store_or_update_modal').modal({
                             keyboard: false,
                             backdrop: 'static'
                         }).modal('show');
                         $('#store_or_update_modal .modal-title').html(
-                            '<i class="fa-solid fa-pen-to-square"></i> <span>Edit ' + data.data.menu_name + 
+                            '<i class="fa-solid fa-pen-to-square"></i> <span>Edit ' + data.data.name + 
                             '</span>');
                         $('#store_or_update_modal #save_btn').text('Update');
                     },
@@ -277,12 +291,11 @@
         // catch id for delete data
         $(document).on('click', '.delete_data', function() {
             let id   = $(this).data('id');
-            let url  = "{{ route('menu.delete') }}";
+            let url  = "{{ route('menu.module.permission.delete') }}";
             let row  = table.row($(this).parent('tr'));
             let name = $(this).data('name');
             delete_data(id, url, table, row, name);
         });
-
         function multi_delete(){
             let ids = [];
             let rows;
@@ -297,9 +310,41 @@
                     text: 'Please checked at least one row of table!',
                 });
             } else {
-                let url = "{{ route('menu.bulk.delete') }}";
+                let url = "{{ route('menu.module.permission.bulk.delete') }}";
                 bulk_delete(ids, table, url, rows);
             }
+        }
+        // dynamic permission function
+        $(document).on('click', '#add_permission', function(){
+            count++;
+            dynamic_permission_field(count)
+        });
+        $(document).on('click', '.remove_permission', function(){
+            count--;
+            $(this).closest('tr').remove();
+        });
+        function dynamic_permission_field(row){
+            html = `<tr>
+                        <td>
+                            <input type="text" name="permission[`+row+`][name]" onkeyup="url_generator(this.value,'permission_`+row+`_slug')" id="permission_`+row+`_name" class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" name="permission[`+row+`][slug]" id="permission_`+row+`_slug" class="form-control">
+                        </td>
+                        <td>
+                            <button class="btn btn-danger remove_permission" type="button" data-toggle="tooltip" data-placement="top" data-original-title="Remove">
+                                <i class="fa-solid fa-square-minus"></i>
+                            </button>
+                        </td>
+                    </tr>`;
+            $('#permission_table tbody').append(html);
+        }
+        // url generator function
+        function url_generator(input_value,output_id){
+            let value = input_value.toLowerCase().trim();
+            let str = value.replace(/ +(?= )/g,'');
+            let name = str.split(' ').join('-');
+            $('#'+output_id).val(name);
         }
     </script>
   @endpush
